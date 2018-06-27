@@ -12,7 +12,9 @@
         br
         i 這裡是攻打 F2E 的第 4 座城堡 -- Product Gallery
         br
-        i 目前攻打的目標： page-home
+        i 目前已攻下： page-home
+        br
+        i 待進攻： page-product
         br
         i 採用的武器有
         br

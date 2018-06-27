@@ -4,21 +4,69 @@
 @import "./partials/animations";
 @import "./partials/text-utils";
 
+$grid-item-height: 100px;
+$grid-item-width: 120px;
+$box-border-width: 20px;
+
+@mixin box($height-times, $width-times) {
+  height: $height-times * $grid-item-height;
+  width: $width-times * $grid-item-width;
+  box-sizing: border-box;
+}
+@mixin border-box($height-times, $width-times) {
+  @include box($height-times, $width-times);
+  border: $box-border-width solid $color-blue;
+}
+@mixin solid-box($height-times, $width-times) {
+  @include box($height-times, $width-times);
+  background-color: $color-blue;
+}
+@mixin shadow($left: 0px) {
+  &::before,
+  &::after {
+    content: attr(data-text);
+    overflow: hidden;
+    position: absolute;
+    left: $left;
+  }
+  &::before {
+    top: -11px;
+    padding-top: 10px;
+    height: 8px;
+    color: $color-black-trans-30;
+  }
+  &::after {
+    top: -19px;
+    padding-top: 9px;
+    height: 0px;
+    color: $color-black-trans-10;
+  }
+}
+@mixin pattern($w-times, $h-times) {
+  width: $w-times * $grid-item-width;
+  height: $h-times * $grid-item-height;
+
+  background-color: transparent;
+  background-image: repeating-linear-gradient(
+    135deg,
+    $color-blue,
+    $color-blue 18px,
+    transparent 10px,
+    transparent 34.5px
+  );
+}
 * {
   margin: 0;
 }
-
 html,
 body {
   font-family: "Roboto", sans-serif;
   height: 100%;
   line-height: 19px;
 }
-
 body {
-  background: $color-white;
+  background: #333;
 }
-
 #btn-about {
   border: 1px dashed #f5a623;
   background: rgba(255, 255, 255, 0.3);
@@ -27,7 +75,6 @@ body {
   right: 5px;
   top: 5px;
   z-index: 9999;
-
   &:hover {
     border-color: #4a90e2;
     color: #4a90e2;
@@ -35,4 +82,346 @@ body {
     font-weight: bolder;
   }
 }
-
+#app {
+  display: flex;
+  justify-content: center;
+}
+.container {
+  background-color: $color-white;
+  padding: 33px 32px;
+  display: grid;
+  grid-auto-columns: 120px;
+  grid-auto-rows: 100px;
+  height: 2000px;
+  margin: 33px 32px;
+  width: 960px;
+  .ccclothes {
+    grid-area: 1 / 1 / span 1 / span 8;
+    line-height: 24px;
+    padding: 0 10px;
+    place-self: start center;
+  }
+  .mans-tops {
+    grid-area: 1 / 1 / span 1 / span 8;
+    margin-bottom: 16px;
+    place-self: end center;
+  }
+  /* LINEN BLAZER */
+  .p1-no {
+    grid-area: 7 / 1 / span 1 / span 1;
+    padding-top: 10px;
+  }
+  .p1-pattern {
+    grid-area: 6 / 1 / span 2 / span 3;
+    place-self: center center;
+    @include pattern(2, 1);
+  }
+  .p1-img {
+    grid-area: 3 / 1 / span 4 / span 4;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .p1-caption {
+    grid-area: 2 / 1 / span 2 / span 3;
+    place-self: center stretch;
+    padding-top: 16px;
+    position: relative;
+    z-index: 20;
+    @include shadow(1px);
+  }
+  .p1-sub-caption {
+    white-space: nowrap;
+    transform: rotate(90deg);
+    grid-area: 6 / 5 / span 1 / span 1;
+    align-self: center;
+    justify-self: center;
+    height: 120px;
+    width: 100px;
+    i {
+      display: block;
+      line-height: 214px;
+    }
+  }
+  .p1-box-1 {
+    @include border-box(2, 2);
+    grid-area: 2 / 3 / span 3 / span 3;
+    place-self: center center;
+  }
+  /* FREELIFT */
+  .p2-no {
+    grid-area: 3 / 8 / span 1 / span 1;
+    padding-top: 14px;
+    text-align: right;
+    z-index: 20;
+  }
+  .p2-box-2 {
+    @include border-box(2, 2);
+    grid-area: 3 / 7 / span 2 / span 2;
+  }
+  .p2-box-1 {
+    @include solid-box(2, 2);
+    grid-area: 3 / 6 / span 3 / span 3;
+    place-self: center center;
+  }
+  .p2-img {
+    grid-area: 4 / 6 / span 2 / span 2;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .p2-caption {
+    grid-area: 6 / 7 / span 1 / span 2;
+    place-self: center stretch;
+    padding-top: 16px;
+    position: relative;
+    z-index: 24;
+    margin-bottom: 24px;
+    @include shadow;
+  }
+  .p2-sub-caption {
+    white-space: nowrap;
+    grid-area: 3 / 6 / span 1 / span 1;
+    align-self: end;
+    justify-self: start;
+    position: relative;
+    i {
+      position: relative;
+      right: $box-border-width - 6px;
+      line-height: 24px;
+    }
+  }
+  /* SUPER SKINNY */
+  .p3-no {
+    grid-area: 11 / 5 / span 1 / span 1;
+    padding-top: 14px;
+    text-align: left;
+    z-index: 20;
+  }
+  .p3-box-2 {
+    @include border-box(2, 2);
+    grid-area: 9 / 3 / span 3 / span 3;
+    place-self: center center;
+  }
+  .p3-box-1 {
+    @include solid-box(1, 2);
+    grid-area: 8 / 1 / span 2 / span 2;
+    place-self: center center;
+  }
+  .p3-img {
+    grid-area: 9 / 1 / span 2 / span 4;
+    z-index: 20;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .p3-caption {
+    grid-area: 8 / 2 / span 1 / span 3;
+    place-self: end end;
+    padding-top: 16px;
+    position: relative;
+    z-index: 24;
+    margin-bottom: 15px;
+    @include shadow;
+  }
+  .p3-sub-caption {
+    white-space: nowrap;
+    grid-area: 11 / 1 / span 1 / span 2;
+    align-self: start;
+    justify-self: end;
+    i {
+      line-height: 24px + 4px;
+    }
+  }
+  /* SUPER SKINNY */
+  .p4-no {
+    grid-area: 12 / 6 / span 1 / span 1;
+    align-self: end;
+    justify-self: end;
+    padding-bottom: 10px;
+  }
+  .p4-box-1 {
+    @include border-box(2, 2);
+    grid-area: 8 / 6 / span 2 / span 3;
+    place-self: center center;
+  }
+  .p4-img {
+    grid-area: 9 / 7 / span 4 / span 2;
+    z-index: 20;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .p4-caption {
+    grid-area: 9 / 6 / span 1 / span 1;
+    transform: rotate(-90deg);
+    place-self: end end;
+    padding-top: 16px;
+    z-index: 24;
+    margin-bottom: 10px;
+    margin-right: -44px;
+    @include shadow;
+    // background-color: rgba(255, 0, 0, 0.3);
+  }
+  .p4-sub-caption {
+    white-space: nowrap;
+    transform: rotate(90deg);
+    grid-area: 8 / 8 / span 1 / span 1;
+    align-self: start;
+    padding-bottom: 8px;
+    justify-self: center;
+    i {
+      line-height: 24px + 24px;
+    }
+  }
+  .p4-pattern {
+    grid-area: 12 / 7 / span 2 / span 2;
+    place-self: center center;
+    z-index: 21;
+    @include pattern(2, 1);
+  }
+  /* SWEATSHIRTS */
+  .p5-no {
+    grid-area: 14 / 2 / span 1 / span 1;
+    align-self: end;
+    justify-self: start;
+    padding-bottom: 10px;
+    z-index: 21;
+  }
+  .p5-box-1 {
+    @include border-box(1, 2);
+    grid-area: 14 / 2 / span 2 / span 2;
+    place-self: center center;
+  }
+  .p5-img {
+    grid-area: 13 / 3 / span 2 / span 2;
+    z-index: 20;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: rotateY(180deg);
+    }
+  }
+  .p5-caption {
+    grid-area: 13 / 1 / span 1 / span 3;
+    position: relative;
+    place-self: end start;
+    padding-top: 16px;
+    z-index: 24;
+    margin-bottom: 10px;
+    @include shadow;
+  }
+  .p5-sub-caption {
+    white-space: nowrap;
+    grid-area: 13 / 5 / span 1 / span 1;
+    padding-left: 4px;
+    i {
+      line-height: 24px + 4px;
+    }
+  }
+  .p5-pattern {
+    grid-area: 12 / 1 / span 2 / span 3;
+    place-self: center center;
+    z-index: 21;
+    @include pattern(2, 1);
+  }
+  /* VINTAGE DENIM */
+  .p6-no {
+    grid-area: 16 / 4 / span 1 / span 1;
+    align-self: end;
+    justify-self: end;
+    padding-bottom: 10px;
+    z-index: 21;
+  }
+  .p6-box-1 {
+    @include solid-box(2, 1);
+    grid-area: 17 / 4 / span 2 / span 2;
+    place-self: center center;
+  }
+  .p6-box-2 {
+    @include border-box(1, 4);
+    grid-area: 18 / 5 / span 2 / span 4;
+    place-self: center center;
+  }
+  .p6-img {
+    grid-area: 15 / 5 / span 4 / span 4;
+    z-index: 20;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .p6-caption {
+    grid-area: 14 / 6 / span 1 / span 3;
+    position: relative;
+    place-self: end start;
+    padding-top: 16px;
+    z-index: 24;
+    margin-bottom: 10px;
+    @include shadow;
+  }
+  .p6-sub-caption {
+    white-space: nowrap;
+    grid-area: 19 / 6 / span 1 / span 2;
+    text-align: center;
+    i {
+      line-height: 24px + 4px;
+    }
+  }
+  /* EDITION */
+  .p7-no {
+    grid-area: 20 / 3 / span 1 / span 1;
+    align-self: end;
+    justify-self: end;
+    padding-bottom: 10px;
+    z-index: 22;
+  }
+  .p7-box-1 {
+    @include solid-box(2, 1);
+    grid-area: 19 / 3 / span 2 / span 1;
+    place-self: center center;
+  }
+  .p7-box-2 {
+    @include border-box(3, 2);
+    grid-area: 16 / 1 / span 4 / span 3;
+    place-self: center center;
+  }
+  .p7-img {
+    grid-area: 17 / 1 / span 4 / span 2;
+    z-index: 20;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .p7-caption {
+    grid-area: 17 / 3 / span 1 / span 1;
+    transform: rotate(90deg);
+    place-self: end end;
+    padding-top: 16px;
+    z-index: 24;
+    position: relative;
+    top: 6px;
+    left: 4px;
+    @include shadow;
+  }
+  .p7-sub-caption {
+    white-space: nowrap;
+    grid-area: 16 / 1 / span 1 / span 1;
+    align-self: end;
+    i {
+      line-height: 24px + 4px;
+    }
+  }
+}
