@@ -11,7 +11,7 @@ Vue.filter("formatCurrency", n => new Intl.NumberFormat().format(n));
 new Vue({
   el: "#app",
   data: {
-    showAbout: false
+    showAbout: true
   },
   components: {
     about

@@ -21,6 +21,7 @@
         ul
           li css grid
           li css pesudo
+          li css animation/transition
           li scss
           li pug
       //- .about-item(@click.stop="() => {}")
